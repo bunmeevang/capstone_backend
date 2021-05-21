@@ -28,6 +28,7 @@ mongoose.connect(process.env.MONGO_URI, {
 mongoose.connection.once('connected', () => console.log('Lets get it, today!!!'))
 
 app.use('/cars', require('./controllers/carController'))
+app.use('/user', require('./controllers/usersController'))
 
 app.get('/', (req, res) => {
     res.send(`<h1>Hello World</h1>`)
@@ -84,5 +85,5 @@ app.post('/register', (req, res) => {
 
 
 app.listen(PORT, () => {
-    console.warn(`App listening on http://localhost:${PORT}`);
+    console.log(`App listening on http://localhost:${PORT}`);
   });

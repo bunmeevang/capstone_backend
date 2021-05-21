@@ -60,7 +60,7 @@ router.post('/addCar/:car/:username', (req, res) =>{
 })
 
 router.get('/:username', (req, res) => {
-    const userQuery = User.findOne({ username: req.params,username }).select('-password').populate('cars')
+    const userQuery = User.findOne({ username: req.params.username }).select('-password').populate('cars')
     
     userQuery.exec((err, foundUser) => {
         if (err) {
@@ -71,6 +71,31 @@ router.get('/:username', (req, res) => {
             res.status(200).json(foundUser)
         }
     })
+})  
+
+// Update
+router.put('/:id', async (req, res) => {
+    try {
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true } )
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        res.status(400).json({
+            msg: error.message
+        })
+    }
 })
+
+// Delete
+router.delete('/:id', async (req, res) => {
+    try {
+        const deletedUser = await User.findByIdAndDelete(req.params.id);
+        res.status(200).json(deletedUser);
+    } catch (error) {
+        res.status(400).json({
+            msg: error.message
+        })
+    }
+})
+
 
 module.exports = router
